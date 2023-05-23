@@ -1,0 +1,69 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: namespace-namespace-poi-gateway-app-dev
+  annotations:
+    argocd/app-name: namespace-namespace-poi-gateway-app-dev
+    backstage.io/kubernetes-id: namespace-namespace-poi-gateway-app-dev
+    backstage.io/kubernetes-namespace: namespace
+    backstage.io/kubernetes-label-selector: 'app.kubernetes.io/instance=namespace-namespace-poi-gateway-app-dev'
+    backstage.io/techdocs-ref: dir:.
+    github.com/project-slug: Summit23Janus1/namespace-gateway
+    janus-idp.io/tekton-enabled: 'true'
+  tags:
+    - java
+    - quarkus
+    - maven
+    - workshop
+  links:
+    - url: https://console-openshift-console.apps.summit23rock.n26o.p1.openshiftapps.com/dev-pipelines/ns/namespace/
+      title: Pipelines
+      icon: web
+    - url: https://console-openshift-console.apps.summit23rock.n26o.p1.openshiftapps.com/k8s/ns/namespace/deployments/namespace-poi-gateway-app
+      title: Deployment
+      icon: web
+    - url: https://devspaces.apps.summit23rock.n26o.p1.openshiftapps.com/#https://github.com/Summit23Janus1/namespace-gateway?che-editor=che-incubator/che-code/latest&devfilePath=.devfile-vscode.yaml
+      title: OpenShift Dev Spaces (VS Code)
+      icon: web
+spec:
+  type: service
+  lifecycle: production
+  owner: "namespace"
+  system: workshop-system-namespace
+  providesApis:
+    - gateway-api-namespace
+  consumesApis:
+    - backend-api-namespace
+---
+apiVersion: backstage.io/v1alpha1
+kind: System
+metadata:
+  name: workshop-system-namespace
+  tags:
+    - backstage
+    - janus-idp
+    - openshift
+    - workshop
+    - rh-summit
+spec:
+  owner: "namespace"
+---
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: gateway-api-namespace
+  description: API surface exposed to interact with Backends (summit POIs + parks data) via the Gateway
+  links:
+    - url: http://namespace-poi-gateway-app-namespace.apps.summit23rock.n26o.p1.openshiftapps.com/q/swagger-ui
+      title: Swagger UI
+      icon: web
+    - url: https://github.com/Summit23Janus1/namespace-gateway/tree/main/src/main/resources/META-INF/openapi.yaml
+      title: API Spec
+      icon: code
+spec:
+  type: openapi
+  lifecycle: production
+  owner: "namespace"
+  system: workshop-system-namespace
+  definition:
+    $text: https://github.com/Summit23Janus1/namespace-gateway/tree/main/src/main/resources/META-INF/openapi.yaml
